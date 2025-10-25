@@ -35,16 +35,53 @@ public class Grafo<T extends IIdentificable> implements IGrafo<T> {
     
     @Override
     public void mostrarMatrizAdyacencia() {
-    	
+    	System.out.println("Matriz de Adyacencia: ");
+        List<Long> claves = new ArrayList<>(nodos.keySet());
+        Collections.sort(claves); //Metemos las claves a traves de "nodos", que usa HashMap y las colocamos en una lista. Por ult. ordenamos la lista.
+
+        System.out.print("    ");
+        for (Long clave : claves) {
+            System.out.print(clave + " ");
+        }
+        System.out.println();
+
+        // Filas de la matriz
+        for (Long claveI : claves) { //Itera por cada clave en claves. Columnas de la  matriz
+            System.out.print(claveI + ": ");
+            INodo<T> nodoI = nodos.get(claveI); //Atrapa al nodo con la Persona que le corresponde la clave y la guarda en nodoI
+            for (Long claveJ : claves) { //Filas
+                INodo<T> nodoJ = nodos.get(claveJ); 
+                // Imprime 1 si hay conexión, 0 si no
+                System.out.print(nodoI.getVecinos().contains(nodoJ) ? "1 " : "0 ");
+            }
+            System.out.println();
+        }
     }
+
 
     @Override
     public void mostrarListaAdyacencia() {
-    	
+    	System.out.println("Lista de Adyacencia:");
+        List<Map.Entry<Long, INodo<T>>> entradas = new ArrayList<>(nodos.entrySet());
+        Collections.sort(entradas, Comparator.comparing(Map.Entry::getKey));
+        
+        for (Map.Entry<Long, INodo<T>> entrada : entradas) {
+            Long clave = entrada.getKey();
+            INodo<T> nodo = entrada.getValue();
+            System.out.print(clave + ": ");
+            Set<INodo<T>> vecinos = nodo.getVecinos();
+            
+            for (INodo<T> vecino : vecinos) {
+                System.out.print(vecino.getValor() + " "); //Muestra los datos de cada nodo "vecino" que son Personas.
+            }
+            System.out.println();
+        }
     }
+//Itera entre Nodos, de cada nodo muestra los datos sus nodos vecinos (Personas)
 
+    
     @Override
-    public void bfs(T inicio) { //(breadth-first search)
+    public void bfs(T inicio) { //Búsqueda en Amplitud
         if (!nodos.containsKey(inicio.obtenerClave())) return; // precondición (Si el nodo de inicio no existe en el grafo, sale inmediatamente)
         ///Lista y cola
         Set<Long> visitados = new HashSet<>(); // Se guardan las claves de los nodos ya visitados para evitar procesarlas de nuevo.
@@ -71,8 +108,34 @@ public class Grafo<T extends IIdentificable> implements IGrafo<T> {
     }
 
 
-        @Override
-        public void dfs(T inicio) {
-        	
-        }
+    @Override
+    public void dfs(T inicio) { //DFS Busqueda en profundidad (Recorre)
+        if (!nodos.containsKey(inicio.obtenerClave())) return;
+        //Si no existe un nodo de inicio, se cierra.
+        Set<Long> visitados = new HashSet<>();
+        System.out.println("Recorrido DFS:");
+        INodo<T> nodoInicio = nodos.get(inicio.obtenerClave());
+        dfsRec(nodoInicio, visitados);
+        System.out.println();
+    }
+
+    private void dfsRec(INodo<T> actual, Set<Long> visitados) {
+        // marcamos como visitado usando la clave del valor T (En nuestro caso la clave de la persona, dni)
+        Long claveActual = actual.getValor().obtenerClave();
+        visitados.add(claveActual);
+
+        // imprimimos el valor 
+        System.out.print(actual.getValor() + " ");
+
+        // recorremos los vecinos (getVecinos() devuelve Set<INodo<T>>)
+        for (INodo<T> vecino : actual.getVecinos()) {
+            Long claveVecino = vecino.getValor().obtenerClave();
+            if (!visitados.contains(claveVecino)) { //Vecinos contiene las claves, y verificamos si ya visitamos a este vecino.
+                dfsRec(vecino, visitados); //En caso de no contener la clave del vecino, significa que no lo recorrimos. 
+            } //Al recorrer este nuevo vecino, lo marcamos como visitado 
+        }	  //Imprimimos su valor
+    }  		  //Y repetimos el proceso con los vecinos de ese nodo.
+    
+    
+    
 }
