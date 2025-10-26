@@ -1,8 +1,9 @@
 package modelo;
 
+import interfaces.IIdentificable;
 import interfaces.IPersona;
 
-public class Persona implements IPersona{
+public class Persona implements IPersona, IIdentificable {
 	private String nombre;
 	private Long dni;
 	private String genero;
@@ -43,4 +44,8 @@ public String toString() {
 }
 
 
-}///Cierre Clase
+	@Override
+	public Long obtenerClave() {
+		return this.dni;
+	}
+}

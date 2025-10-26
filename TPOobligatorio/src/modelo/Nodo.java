@@ -32,11 +32,12 @@ public class Nodo <T> implements INodo <T>{
     @Override
     public void agregarVecino(INodo<T> vecino) {
 
-
+        vecinos.add(vecino);
     }
 
     @Override
     public Set<INodo<T>> getVecinos() {
+
         return this.vecinos;
     }
 
