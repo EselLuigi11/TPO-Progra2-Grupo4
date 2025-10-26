@@ -4,10 +4,10 @@ import interfaces.IPersona;
 
 public class Persona implements IPersona{
 	private String nombre;
-	private int dni;
+	private Long dni;
 	private String genero;
 
-public Persona(String nombre, int dni, String genero) {
+public Persona(String nombre, Long dni, String genero) {
 	this.nombre = nombre;
 	this.dni = dni;
 	this.genero = genero;
@@ -21,11 +21,11 @@ public void setNombre(String nombre) {
 	this.nombre = nombre;
 }
 
-public int getDni() {
+public Long getDni() {
 	return dni;
 }
 
-public void setDni(int dni) {
+public void setDni(Long dni) {
 	this.dni = dni;
 }
 
