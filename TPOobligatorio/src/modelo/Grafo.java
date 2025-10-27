@@ -29,8 +29,14 @@ public class Grafo<T extends IIdentificable> implements IGrafo<T> {
             segundo.agregarVecino(primero); //Los conecta a ambos ida y vuelta, arista de doble sentido. 
         }									// Seria una arista bidireccional o sin sentido.
     }
+    
     //public void agregarAristaUniDireccional(T origen, Tdestino) {
-    	
+    	//if(nodos.containsKey(origen.obtenerClave()) && nodos.containsKey(destino.obtenerClave())){ //Verifica que ambos nodos existen
+        //INodo<T> primero= nodos.get(origen.obtenerClave()); 
+        //INodo<T> segundo= nodos.get(destino.obtenerClave()); //Recupera el origen y el destino en 2 variables.
+        //primero.agregarVecino(segundo); 
+        //segundo.agregarVecino(primero); //Los conecta a ambos ida y vuelta, arista de doble sentido. 
+    //}			
     //}
     
     @Override
@@ -81,7 +87,7 @@ public class Grafo<T extends IIdentificable> implements IGrafo<T> {
 
     
     @Override
-    public void bfs(T inicio) { //Búsqueda en Amplitud
+    public void bfs(T inicio) { //Búsqueda en Amplitud en anchura
         if (!nodos.containsKey(inicio.obtenerClave())) return; // precondición (Si el nodo de inicio no existe en el grafo, sale inmediatamente)
         ///Lista y cola
         Set<Long> visitados = new HashSet<>(); // Se guardan las claves de los nodos ya visitados para evitar procesarlas de nuevo.
@@ -94,10 +100,10 @@ public class Grafo<T extends IIdentificable> implements IGrafo<T> {
 
         System.out.println("Recorrido BFS:");
         while (!cola.isEmpty()) {
-            INodo<T> actual = cola.poll();
+            INodo<T> actual = cola.poll(); //poll, metodo para eliminar primero de una cola y añadirlo, en este caso a actual.
             System.out.print(actual.getValor() + " ");
 
-            for (INodo<T> vecino : actual.getVecinos()) {
+            for (INodo<T> vecino : actual.getVecinos()) {          //Obtiene los vecinos del inicio/actual, itera y los almacena en la cola.
                 if (!visitados.contains(vecino.getValor().obtenerClave())) {
                     visitados.add(vecino.getValor().obtenerClave());
                     cola.add( vecino);
@@ -136,6 +142,16 @@ public class Grafo<T extends IIdentificable> implements IGrafo<T> {
         }	  //Imprimimos su valor
     }  		  //Y repetimos el proceso con los vecinos de ese nodo.
     
+     //public void encontrarCaminoCorto() {
+    	
+    //}
     
+    //public void mostrarGrafoPonderado() {
+    	
+    //}
+    
+    //public void kruskal() {
+    	
+    //}
     
 }
